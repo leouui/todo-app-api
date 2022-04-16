@@ -13,7 +13,7 @@ const User = require("../models/User.model");
 
 const router = Router()
 
-router.post("/check",[
+router.get("/check",[
     validateJWT
 ],checkSession)
 

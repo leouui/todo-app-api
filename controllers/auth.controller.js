@@ -46,9 +46,9 @@ const registerUser = async(req,res) =>{
 }
 
 const checkSession = async(req,res) => {
-    const {userID,expiration} = req
+    const { userID,expiration } = req
     const user = await User.findById(userID)
-    
+
     res.json({
         user,
         expiration:expiration * 1000

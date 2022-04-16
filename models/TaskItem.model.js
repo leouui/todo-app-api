@@ -3,9 +3,8 @@ const {Schema} = require('mongoose')
 const TaskItem = new Schema({
     title:{
         type:String,
-        required:true
     },
-    description:{
+    desc:{
         type:String,
         default:""
     },

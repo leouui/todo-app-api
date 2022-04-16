@@ -10,6 +10,10 @@ const {
 
 const { validate,validateJWT,findTaskByID } = require("../middlewares/");
 
+// Pending
+// check if the length of the task title is less than 30 characters
+// check if the length of the task desc is less than 50 characters
+
 const router = Router()
 
 router.post("/create-task/",[
@@ -25,7 +29,6 @@ router.get("/",[
 router.put("/:taskID",[
     validateJWT,
     check("taskID","Send a valid id").isMongoId(),
-    check("completed",`Send a boolean to the "completed" field`).isBoolean(),
     findTaskByID,
     validate
 ],updateTask)

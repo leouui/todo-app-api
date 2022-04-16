@@ -2,12 +2,11 @@ const TasksCollection = require('../models/TasksCollection.model')
 
 const createTask = async(req,res) => {
     const { userID } = req
-    const { description,title } = req.body
-    console.log(userID);
+    const { desc,title } = req.body
     const userTasks = await TasksCollection.findOne({userID})
-    console.log(userTasks);
+
     userTasks.tasks = [
-        { title, description },
+        { title, desc },
         ...userTasks.tasks,
     ]
 
@@ -32,11 +31,20 @@ const getTasks = async(req,res) => {
 const updateTask = async(req,res) => {
     const { userTasks,userID } = req
     const { taskID } = req.params
-    const { title,description,completed } = req.body
+    const { title,desc,completed } = req.body
+
+    const toUpdate = Object.entries({ title,desc,completed }).reduce((pv,cv) =>{
+        const [key,value] = cv
+        if(value !== undefined) pv[key] = value
+        return pv
+    },{})
 
     userTasks.tasks = userTasks.tasks.map((task)=> 
         task._id.toString() === taskID
-            ? {...task,title: title || task.title,description,completed}
+            ? {
+                ...task,
+                ...toUpdate
+            }
             : task
     )
 

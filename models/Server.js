@@ -1,5 +1,6 @@
 const express = require("express")
 const {connectToMONGODB} = require("../DB/config")
+const cors = require('cors')
 
 class Server {
     constructor() {
@@ -13,6 +14,7 @@ class Server {
         await connectToMONGODB()
     }
     middlewares() {
+        this.app.use(cors())
         this.app.use(express.static("public"))
         this.app.use(express.json())
     }
