@@ -13,8 +13,6 @@ const { validate,validateJWT,findTasksByID } = require("../middlewares/");
 const router = Router()
 
 const taskValidation = [
-    check("title","You should send a title for this task")
-        .not().isEmpty(),
     check("title","The title should be string")
         .isString(),
     check("title","The title's length should be less than 35 characters")
@@ -28,6 +26,8 @@ const taskValidation = [
 ]
 
 router.post("/create-task/",[
+    check("title","You should send a title for this task")
+        .not().isEmpty(),
     ...taskValidation,
     validate,
     validateJWT
@@ -39,7 +39,6 @@ router.get("/",[
 
 router.put("/:taskID",[
     check("taskID","Send a valid id").isMongoId(),
-    check(["title","desc","completed"]).optional(true),
     ...taskValidation,
     validate,
     validateJWT,
