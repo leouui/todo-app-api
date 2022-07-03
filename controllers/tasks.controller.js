@@ -43,8 +43,8 @@ const updateTask = async(req,res) => {
     // of all task, the one to be updated is searched by its ID and is added the object "toUpdate"
     userTasks.tasks = userTasks.tasks.map((t)=>{
         if(String(t._id) === taskID){
-            task = t
-            return { ...t, ...toUpdate }
+            task = { ...t, ...toUpdate }
+            return task
         }
         return t
     })
