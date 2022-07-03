@@ -48,7 +48,7 @@ router.put("/:taskID",[
         .isLength({max:55})
         .optional(true),
     check("completed","Completed should be Boolean")
-        .not().isBoolean()
+        .isBoolean()
         .optional(true),
     validate,
     validateJWT,
