@@ -16,11 +16,11 @@ const taskValidation = [
     check("title","You should send a title for this task")
         .not().isEmpty(),
     check("title","The title should be string")
-        .not().isString(),
+        .isString(),
     check("title","The title's length should be less than 35 characters")
         .isLength({max:35}),
     check("desc","The desc should be string")
-        .not().isString(),
+        .isString(),
     check("desc","The desc's length should be less than 55 characters")
         .isLength({max:55}),
     check("completed","Completed should be Boolean")
