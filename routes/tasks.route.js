@@ -39,6 +39,7 @@ router.get("/",[
 
 router.put("/:taskID",[
     check("taskID","Send a valid id").isMongoId(),
+    check(["title","desc","completed"]).optional(true),
     ...taskValidation,
     validate,
     validateJWT,
