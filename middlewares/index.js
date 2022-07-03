@@ -1,9 +1,9 @@
 const { validate } = require("./validate");
 const { validateJWT } = require("./validateJWT");
-const { findTaskByID } = require("./findTaskByID");
+const { findTasksByID } = require("./findTasksByID");
 
 module.exports = {
     validate,
     validateJWT,
-    findTaskByID
+    findTasksByID
 }

@@ -8,18 +8,29 @@ const {
     deleteTask
 } = require("../controllers/tasks.controller");
 
-const { validate,validateJWT,findTaskByID } = require("../middlewares/");
-
-// Pending
-// check if the length of the task title is less than 30 characters
-// check if the length of the task desc is less than 50 characters
+const { validate,validateJWT,findTasksByID } = require("../middlewares/");
 
 const router = Router()
 
+const taskValidation = [
+    check("title","You should send a title for this task")
+        .not().isEmpty(),
+    check("title","The title should be string")
+        .not().isString(),
+    check("title","The title's length should be less than 35 characters")
+        .isLength({max:35}),
+    check("desc","The desc should be string")
+        .not().isString(),
+    check("desc","The desc's length should be less than 55 characters")
+        .isLength({max:55}),
+    check("completed","Completed should be Boolean")
+        .not().isBoolean(),
+]
+
 router.post("/create-task/",[
-    validateJWT,
-    check("title","You should send a title for this task").not().isEmpty(),
-    validate
+    ...taskValidation,
+    validate,
+    validateJWT
 ],createTask)
 
 router.get("/",[
@@ -27,17 +38,18 @@ router.get("/",[
 ],getTasks)
 
 router.put("/:taskID",[
-    validateJWT,
     check("taskID","Send a valid id").isMongoId(),
-    findTaskByID,
-    validate
+    ...taskValidation,
+    validate,
+    validateJWT,
+    findTasksByID,
 ],updateTask)
 
 router.delete("/:taskID",[
-    validateJWT,
     check("taskID","Send a valid id").isMongoId(),
-    findTaskByID,
-    validate
+    validate,
+    validateJWT,
+    findTasksByID,
 ],deleteTask)
 
 module.exports = router

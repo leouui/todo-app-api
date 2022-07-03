@@ -13,10 +13,6 @@ const User = new Schema({
         type:String,
         required:true
     },
-    state:{
-        type:Boolean,
-        default:true
-    },
 })
 
 User.methods.toJSON = function() {

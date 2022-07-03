@@ -1,6 +1,6 @@
 const TasksCollection = require("../models/TasksCollection.model")
 
-const findTaskByID = async(req,res,next) => {
+const findTasksByID = async(req,res,next) => {
     const { userID } = req
     const { taskID } = req.params
     const userTasks = await TasksCollection.findOne({userID})
@@ -18,5 +18,5 @@ const findTaskByID = async(req,res,next) => {
 }
 
 module.exports = {
-    findTaskByID
+    findTasksByID
 }

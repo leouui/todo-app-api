@@ -30,25 +30,24 @@ const getTasks = async(req,res) => {
 
 const updateTask = async(req,res) => {
     const { userTasks,userID } = req
-    const { taskID } = req.params
     const { title,desc,completed } = req.body
+    const { taskID } = req.params
+    let task = {}
 
+    // an object is created with the props of the req.boy that contain values
     const toUpdate = Object.entries({ title,desc,completed }).reduce((pv,cv) =>{
         const [key,value] = cv
-        if(value !== undefined) pv[key] = value
+        if(value !== undefined) return {...pv,[key]:value}
         return pv
     },{})
-
-    userTasks.tasks = userTasks.tasks.map((task)=> 
-        task._id.toString() === taskID
-            ? {
-                ...task,
-                ...toUpdate
-            }
-            : task
-    )
-
-    const task = userTasks.tasks.find(({_id}) => _id.toString() === taskID)
+    // of all task, the one to be updated is searched by its ID and is added the object "toUpdate"
+    userTasks.tasks = userTasks.tasks.map((t)=>{
+        if(String(t._id) === taskID){
+            task = t
+            return { ...t, ...toUpdate }
+        }
+        return t
+    })
 
     await userTasks.save()
 
