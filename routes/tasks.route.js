@@ -12,7 +12,9 @@ const { validate,validateJWT,findTasksByID } = require("../middlewares/");
 
 const router = Router()
 
-const taskValidation = [
+router.post("/create-task/",[
+    check("title","You should send a title for this task")
+        .not().isEmpty(),
     check("title","The title should be string")
         .isString(),
     check("title","The title's length should be less than 35 characters")
@@ -23,12 +25,6 @@ const taskValidation = [
         .isLength({max:55}),
     check("completed","Completed should be Boolean")
         .not().isBoolean(),
-]
-
-router.post("/create-task/",[
-    check("title","You should send a title for this task")
-        .not().isEmpty(),
-    ...taskValidation,
     validate,
     validateJWT
 ],createTask)
@@ -39,8 +35,21 @@ router.get("/",[
 
 router.put("/:taskID",[
     check("taskID","Send a valid id").isMongoId(),
-    ...taskValidation,
-    check(["title","description","completed"]).optional(true),
+    check("title","The title should be string")
+        .isString()
+        .optional(true),
+    check("title","The title's length should be less than 35 characters")
+        .isLength({max:35})
+        .optional(true),
+    check("desc","The desc should be string")
+        .isString()
+        .optional(true),
+    check("desc","The desc's length should be less than 55 characters")
+        .isLength({max:55})
+        .optional(true),
+    check("completed","Completed should be Boolean")
+        .not().isBoolean()
+        .optional(true),
     validate,
     validateJWT,
     findTasksByID,
